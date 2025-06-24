@@ -1,0 +1,3 @@
+### Creates new product
+DELETE http://localhost:8080/beenary-products/v1/products/1
+Content-Type: application/json

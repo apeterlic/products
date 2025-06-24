@@ -1,0 +1,23 @@
+services:
+  database:
+    image: postgres:15
+    container_name: beenary-products
+    init: true
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U beenary-products" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    environment:
+      POSTGRES_USER: beenary
+      POSTGRES_PASSWORD: beenary
+      POSTGRES_DB: products
+    ports:
+      - "65432:5432"
+    volumes:
+      - db_beenary_products:/var/lib/postgresql/data
+
+volumes:
+  db_beenary_products:
+    driver: local

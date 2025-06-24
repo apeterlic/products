@@ -1,0 +1,17 @@
+### Updates existing product
+PUT http://localhost:8080/beenary-products/v1/products/abfee7ef-a490-4c2e-acb2-d80728d99e5e
+Content-Type: application/json
+
+{
+  "payload": {
+    "code": "DM001",
+    "name": "Disney misni mug",
+    "description": "Modern and durable mug for children.",
+    "currency": "EUR",
+    "price": 20,
+    "vat": 25,
+    "category": "PHYSICAL",
+    "stockQuantity": 10,
+    "enabled": true
+  }
+}

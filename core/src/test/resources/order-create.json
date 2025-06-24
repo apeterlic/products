@@ -1,0 +1,11 @@
+{
+  "payload": {
+    "email": "ana@test.com",
+    "orderItems": [
+      {
+        "productId": "c30de2e7-0782-4f59-87ba-432de23d6fa7",
+        "quantity": 2
+      }
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+### Creates new order
+POST http://localhost:8080/beenary-products/v1/orders
+Content-Type: application/json
+
+{
+  "payload": {
+    "email": "ana@test.com",
+    "orderItems": [
+      {
+        "productId": "abfee7ef-a490-4c2e-acb2-d80728d99e5e",
+        "quantity": 2
+      }
+    ]
+  }
+}

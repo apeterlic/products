@@ -1,0 +1,13 @@
+{
+  "payload": {
+    "code": "DM001",
+    "name": "Disney mug",
+    "description": "Modern and durable mug for children.",
+    "currency": "EUR",
+    "price": 2.00,
+    "vat": 25,
+    "category": "PHYSICAL",
+    "stockQuantity": 10,
+    "enabled": true
+  }
+}
