@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 public class SortingFilter implements Serializable {
 
-    public static final String DEFAULT_SORT_COLUMN = "ID";
+    public static final String DEFAULT_SORT_COLUMN = "id";
     public static final String DEFAULT_SORT_DIRECTION = "DESC";
 
     @Serial

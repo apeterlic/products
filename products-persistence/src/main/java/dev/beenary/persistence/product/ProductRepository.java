@@ -19,7 +19,7 @@ public interface ProductRepository extends JpaRepository<ProductDb, UUID> {
      * @param id [{@link UUID}] :: product ID.
      */
     @Modifying
-    @Query("UPDATE PRODUCT p SET p.deleted = true WHERE p.id = :id")
+    @Query("UPDATE ProductDb p SET p.deleted = true WHERE p.id = :id")
     void softDelete(@Param("id") UUID id);
 
     /**
@@ -31,6 +31,14 @@ public interface ProductRepository extends JpaRepository<ProductDb, UUID> {
     Optional<ProductDb> findByCodeAndEnabledTrueAndDeletedFalse(final String code);
 
     /**
+     * Finds enabled and non deleted product by requested id.
+     *
+     * @param id [{@link String}] :: product id.
+     * @return result [{@link Optional &lt; ProductDb &gt; }] :: optional product.
+     */
+    Optional<ProductDb> findByIdAndEnabledTrueAndDeletedFalse(final UUID id);
+
+    /**
      * Retrieves all products matching the given set of product IDs.
      *
      * @param productIds [{@link Set}&lt;{@link UUID}&gt;] :: the set of product IDs to look up
@@ -38,4 +46,8 @@ public interface ProductRepository extends JpaRepository<ProductDb, UUID> {
      */
     Set<ProductDb> findByIdIn(final Set<UUID> productIds);
 
+    Optional<ProductDb> findByIdAndEnabledTrueAndDeletedFalseAndStockQuantityGreaterThanEqual(final UUID id,
+                                                                                              final Integer quantity);
+
+    Optional<ProductDb> findByIdAndDeletedFalse(final UUID id);
 }

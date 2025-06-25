@@ -1,19 +1,20 @@
 package dev.beenary.persistence.order;
 
-import dev.beenary.persistence.BaseEntity;
-import dev.beenary.persistence.ColumnName;
-import dev.beenary.persistence.Table;
 import dev.beenary.api.order.create.Order;
-import dev.beenary.api.order.read.OrderDetails;
-import dev.beenary.api.order.read.OrderItemDetails;
-import dev.beenary.persistence.product.ProductRepository;
+import dev.beenary.api.order.read.OrderDetail;
+import dev.beenary.api.order.read.OrderItemDetail;
 import dev.beenary.common.utility.ApiMapper;
 import dev.beenary.common.utility.EntityMapper;
+import dev.beenary.persistence.BaseEntity;
+import dev.beenary.persistence.ColumnName;
+import dev.beenary.persistence.Tables;
+import dev.beenary.persistence.product.ProductRepository;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -25,7 +26,8 @@ import java.util.List;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Entity(name = Table.ORDER)
+@Entity
+@Table(name = Tables.ORDER)
 public class OrderDb extends BaseEntity {
 
     @Column(name = ColumnName.EMAIL, nullable = false)
@@ -44,36 +46,22 @@ public class OrderDb extends BaseEntity {
         };
     }
 
-    public static ApiMapper<OrderDetails, OrderDb> apiMapper() {
+    public static ApiMapper<OrderDetail, OrderDb> apiMapper() {
         return entity -> {
-            final List<OrderItemDetails> items = entity.getOrderItems()
-                    .stream()
-                    .map(item -> {
-                        final OrderItemDetails orderItemDetailsDto = new OrderItemDetails();
-                        orderItemDetailsDto.setCode(item.getProduct().getCode());
-                        orderItemDetailsDto.setName(item.getProduct().getName());
-                        orderItemDetailsDto.setDescription(item.getProduct().getDescription());
-                        orderItemDetailsDto.setCurrency(item.getProduct().getCurrency());
-                        orderItemDetailsDto.setPrice(item.getProduct().getPrice());
-                        orderItemDetailsDto.setVat(item.getProduct().getVat());
-                        orderItemDetailsDto.setTotalPrice(item.getProduct().getPrice()
-                                .multiply(BigDecimal.valueOf(item.getQuantity())));
-                        orderItemDetailsDto.setQuantity(item.getQuantity());
-                        return orderItemDetailsDto;
-                    })
-                    .toList();
+            final OrderDetail orderDetail = new OrderDetail();
+            orderDetail.setId(entity.getId());
+            orderDetail.setEmail(entity.getCustomerEmail());
 
+            final List<OrderItemDetail> items = OrderItemDb.apiMapper().toUnmodifieableDtoList(entity.getOrderItems());
             final BigDecimal totalPrice = BigDecimal.valueOf(items.parallelStream()
                     .mapToDouble(item -> item.getTotalPrice()
                             .doubleValue())
                     .sum());
 
-            final OrderDetails orderItem = new OrderDetails();
-            orderItem.setEmail(entity.getCustomerEmail());
-            orderItem.setOrderItems(items);
-            orderItem.setCreatedAt(entity.getCreatedAt());
-            orderItem.setTotalPrice(totalPrice);
-            return orderItem;
+            orderDetail.setOrderItems(items);
+            orderDetail.setCreatedAt(entity.getCreatedAt());
+            orderDetail.setTotalPrice(totalPrice);
+            return orderDetail;
         };
     }
 }

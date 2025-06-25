@@ -14,11 +14,13 @@ public interface OrderRepository extends JpaRepository<OrderDb, UUID> {
     /**
      * Finds orders by requested creation time.
      *
-     * @param createdAt [{@link LocalDateTime}] :: order creation time.
-     * @param pageable  [{@link Pageable}] :: pagination and sorting criteria.
+     * @param from     [{@link LocalDateTime}] :: order creation time.
+     * @param to       [{@link LocalDateTime}] :: order creation time.
+     * @param pageable [{@link Pageable}] :: pagination and sorting criteria.
      * @return result [{@link Page &lt; OrderDb &gt; }] :: paginated orders.
      */
 
-    Page<OrderDb> findByCreatedAt(final LocalDateTime createdAt, final Pageable pageable);
+    Page<OrderDb> findByCreatedAtBetween(final LocalDateTime from,
+                                         final LocalDateTime to, final Pageable pageable);
 
 }

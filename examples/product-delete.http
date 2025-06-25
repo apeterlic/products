@@ -1,3 +1,3 @@
-### Creates new product
-DELETE http://localhost:8080/beenary-products/v1/products/1
+### Deletes a product with requested ID
+DELETE http://localhost:8080/beenary-products/v1/products/fe9a2f65-931b-41e2-95aa-d47fa4a36a33
 Content-Type: application/json

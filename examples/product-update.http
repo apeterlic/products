@@ -5,10 +5,10 @@ Content-Type: application/json
 {
   "payload": {
     "code": "DM001",
-    "name": "Disney misni mug",
+    "name": "Disney mug",
     "description": "Modern and durable mug for children.",
     "currency": "EUR",
-    "price": 20,
+    "price": 46,
     "vat": 25,
     "category": "PHYSICAL",
     "stockQuantity": 10,

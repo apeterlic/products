@@ -1,0 +1,4 @@
+### Searches for orders for a given period
+GET http://localhost:8080/beenary-products/v1/orders?page=1&size=10&sortBy=id&sortDirection=DESC
+    &from=2025-06-24T07:28:05.915292&to=2025-06-25T07:20:05.915292
+Content-Type: application/json

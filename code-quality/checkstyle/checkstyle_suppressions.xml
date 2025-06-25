@@ -12,11 +12,10 @@
     <suppress checks="[a-zA-Z0-9]*" files=".*/scripts/jquery.js"/>
     <suppress checks="[a-zA-Z0-9]*" files=".*/src/generated/.*"/>
     <suppress checks="[a-zA-Z0-9]*" files=".*/src/main/resources/.*"/>
-    <suppress checks="[a-zA-Z0-9]*" files=".*/src/main/java/hr/apisit/f77/aeoi/dac7/registration/ws/eu/ec/.*"/>
     <suppress checks="[a-zA-Z0-9]*" files=".*/.*.xpi"/>
     <suppress checks="[a-zA-Z0-9]*" files=".*.png"/>
     <suppress checks="[a-zA-Z0-9]*" files=".*.jpg"/>
     <suppress checks="[a-zA-Z0-9]*" files=".*.pfx"/>
-    <!-- TODO: remove below suppress after we add private constructor -->
-    <suppress files="hr.apisit.f207.joppd.usl.por.obv.api.Application.java" checks="HideUtilityClassConstructor"/>
+    <suppress files="dev.beenary.web.ProductApplication.java"
+              checks="HideUtilityClassConstructor"/>
 </suppressions> 

@@ -3,6 +3,7 @@ package dev.beenary.api.product;
 import dev.beenary.api.ApiIdEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -70,10 +71,12 @@ public class Product extends ApiIdEntity {
     private String category;
 
     /**
-     * Product stock quantity (Optional). Required only for PHYSICAL product type.
+     * Product stock quantity (Required).
      */
-    @Schema(description = "Stock quantity. Required for PHYSICAL product type.", example = "10")
-    private Long stockQuantity;
+    @Schema(description = "Stock quantity.", example = "10")
+    @NotNull(message = "{product-stock-quantity.empty}")
+    @Min(message = "{product-stock-quantity.min-value}", value = 1)
+    private Integer stockQuantity;
 
     /**
      * Information if product is enabled (Required).

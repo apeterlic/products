@@ -10,10 +10,10 @@ import java.util.Optional;
 public interface CurrencyRepository extends JpaRepository<CurrencyDb, Long> {
 
     /**
-     * Finds currency by requested value.
+     * Checks whether currency by requested value exists.
      *
      * @param value [{@link String}] :: requested value.
      * @return result [{@link Optional &lt; CurrencyDb &gt; }] :: optional currency.
      */
-    Optional<CurrencyDb> findByValue(final String value);
+    boolean existsByValue(final String value);
 }

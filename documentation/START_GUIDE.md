@@ -1,6 +1,6 @@
 # 🚀 Startup and Testing Guide
 
-This guide outlines how to start and test the Java Spring Boot project using Docker Desktop, 
+This guide outlines how to start and test the Java Spring Boot project using Docker Desktop,
 Java 21, and supporting services.
 
 ---
@@ -8,12 +8,14 @@ Java 21, and supporting services.
 ## 🧰 Prerequisites
 
 Make sure the following are installed on your system:
+
 - Java 21
 - Maven
 - Docker Desktop
 - Git
 
 ---
+
 ## 🐳 Start the Database with Docker
 
 ```bash
@@ -28,7 +30,8 @@ docker-compose -f docker/db-compose.yml up -d
 - **Port Mapping:** `localhost:65432 → container:5432`
 - **Volume:** `db_beenary_products` (data persisted)
 
-Once the database is running, it is automatically **pre-populated** using Liquibase, which runs at Spring Boot startup.
+Once the database is running, it is automatically **pre-populated** using Liquibase, which runs at
+Spring Boot startup.
 
 Liquibase changelogs are located at:
 

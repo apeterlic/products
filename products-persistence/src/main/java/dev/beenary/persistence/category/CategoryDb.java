@@ -4,9 +4,10 @@ import dev.beenary.api.Resource;
 import dev.beenary.common.utility.ApiMapper;
 import dev.beenary.persistence.BaseEntity;
 import dev.beenary.persistence.ColumnName;
-import dev.beenary.persistence.Table;
+import dev.beenary.persistence.Tables;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,7 +16,8 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Entity(name = Table.CATEGORY)
+@Entity
+@Table(name = Tables.CATEGORY)
 public class CategoryDb extends BaseEntity {
 
     @Column(name = ColumnName.NAME)

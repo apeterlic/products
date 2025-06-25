@@ -23,10 +23,10 @@ public class BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = ColumnName.ID)
+    @Column(name = ColumnName.ID, updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = ColumnName.CREATED_AT)
+    @Column(name = ColumnName.CREATED_AT, updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = ColumnName.UPDATED_AT)

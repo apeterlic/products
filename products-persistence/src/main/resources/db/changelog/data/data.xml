@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <property name="user_name" value="products" global="true"/>
+    <property name="author" value="products" global="true"/>
+    <property name="minor_dir" value="minor" global="true"/>
+    <property name="release_dir" value="release" global="true"/>
+    <property name="rollout_prefix" value="rollout" global="true"/>
+    <property name="tag_prefix" value="tag" global="true"/>
+
+    <!-- Insert categories -->
+    <changeSet id="${rollout_prefix}_data" author="${author}">
+
+        <!-- CATEGORY -->
+        <insert tableName="category">
+            <column name="id" valueComputed="gen_random_uuid()"/>
+            <column name="name" value="DIGITAL"/>
+            <column name="created_at" valueDate="NOW()"/>
+            <column name="updated_at" valueDate="NOW()"/>
+        </insert>
+        <insert tableName="category">
+            <column name="id" valueComputed="gen_random_uuid()"/>
+            <column name="name" value="PHYSICAL"/>
+            <column name="created_at" valueDate="NOW()"/>
+            <column name="updated_at" valueDate="NOW()"/>
+        </insert>
+
+        <!-- CURRENCY -->
+        <insert tableName="currency">
+            <column name="id" valueComputed="gen_random_uuid()"/>
+            <column name="code" value="EUR"/>
+            <column name="created_at" valueDate="NOW()"/>
+            <column name="updated_at" valueDate="NOW()"/>
+        </insert>
+        <insert tableName="currency">
+            <column name="id" valueComputed="gen_random_uuid()"/>
+            <column name="code" value="USD"/>
+            <column name="created_at" valueDate="NOW()"/>
+            <column name="updated_at" valueDate="NOW()"/>
+        </insert>
+        <insert tableName="currency">
+            <column name="id" valueComputed="gen_random_uuid()"/>
+            <column name="code" value="GBP"/>
+            <column name="created_at" valueDate="NOW()"/>
+            <column name="updated_at" valueDate="NOW()"/>
+        </insert>
+        <insert tableName="currency">
+            <column name="id" valueComputed="gen_random_uuid()"/>
+            <column name="code" value="JPY"/>
+            <column name="created_at" valueDate="NOW()"/>
+            <column name="updated_at" valueDate="NOW()"/>
+        </insert>
+        <insert tableName="currency">
+            <column name="id" valueComputed="gen_random_uuid()"/>
+            <column name="code" value="CNY"/>
+            <column name="created_at" valueDate="NOW()"/>
+            <column name="updated_at" valueDate="NOW()"/>
+        </insert>
+        <insert tableName="currency">
+            <column name="id" valueComputed="gen_random_uuid()"/>
+            <column name="code" value="AUD"/>
+            <column name="created_at" valueDate="NOW()"/>
+            <column name="updated_at" valueDate="NOW()"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

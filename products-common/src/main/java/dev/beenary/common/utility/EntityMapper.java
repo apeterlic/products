@@ -9,13 +9,13 @@ public interface EntityMapper<T, S> {
 
     default List<T> toModifieableEntityList(final List<S> entityList) {
         return entityList.stream()
-            .map(this::toEntity)
-            .collect(Collectors.toList());
+                .map(this::toEntity)
+                .collect(Collectors.toList());
     }
 
     default List<T> toUnmodifieableEntityList(final List<S> entityList) {
         return entityList.stream()
-            .map(this::toEntity)
-            .toList();
+                .map(this::toEntity)
+                .toList();
     }
 }

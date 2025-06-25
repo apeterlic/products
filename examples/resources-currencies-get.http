@@ -1,6 +1,3 @@
-### GET request to example server
-GET http://localhost:8080/v1/resources/currencies
+### Get currencies
+GET http://localhost:8080/beenary-products/v1/resources/currencies
 Content-Type: application/json
-
-
-###

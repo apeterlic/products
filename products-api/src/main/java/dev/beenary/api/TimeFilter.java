@@ -24,7 +24,8 @@ public class TimeFilter implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DEFAULT_DATE_TIME_FORMAT)
     private LocalDateTime to;
 
-    public TimeFilter(final LocalDateTime from) {
+    public TimeFilter(final LocalDateTime from, final LocalDateTime to) {
         this.from = from;
+        this.to = to;
     }
 }

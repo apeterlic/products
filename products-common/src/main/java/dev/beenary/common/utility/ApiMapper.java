@@ -9,13 +9,13 @@ public interface ApiMapper<T, S> {
 
     default List<T> toModifieableDtoList(final List<S> entityList) {
         return entityList.stream()
-            .map(this::toDto)
-            .collect(Collectors.toList());
+                .map(this::toDto)
+                .collect(Collectors.toList());
     }
 
     default List<T> toUnmodifieableDtoList(final List<S> entityList) {
         return entityList.stream()
-            .map(this::toDto)
-            .toList();
+                .map(this::toDto)
+                .toList();
     }
 }

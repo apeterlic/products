@@ -9,15 +9,16 @@ server:
   port: 8080
 
 spring:
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
   jpa:
     show-sql: false
     properties.hibernate.format_sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    defer-datasource-initialization: true
-    datasource:
-      initialization-mode: always
+    defer-datasource-initialization: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: update # for production validate
   datasource:
     url: jdbc:postgresql://localhost:65432/products
     username: beenary

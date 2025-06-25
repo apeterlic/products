@@ -23,7 +23,7 @@ public class PaginationFilter implements Serializable {
         this.page = DEFAULT_PAGE;
     }
 
-    public PaginationFilter(final int entitiesPerPage, final int page) {
+    public PaginationFilter(final int page, final int entitiesPerPage) {
         this.entitiesPerPage = entitiesPerPage;
         this.page = page;
     }
