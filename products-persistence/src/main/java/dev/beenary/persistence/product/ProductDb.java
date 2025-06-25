@@ -9,20 +9,19 @@ import dev.beenary.persistence.Tables;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 /**
  * Represents product DB entity.
  */
-@Setter
-@Getter
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Audited
-@Entity(name = "ProductDb")
+@Entity
 @Table(name = Tables.PRODUCT)
 public class ProductDb extends BaseEntity {
 
@@ -52,10 +51,6 @@ public class ProductDb extends BaseEntity {
 
     @Column(name = ColumnName.ENABLED, nullable = false)
     private boolean enabled;
-
-    // @Version
-    @Column(name = ColumnName.VERSION)
-    private Long version;
 
     @Column(name = ColumnName.DELETED, nullable = false)
     private boolean deleted;
@@ -92,8 +87,6 @@ public class ProductDb extends BaseEntity {
             product.setCategory(dto.getCategory());
             product.setStockQuantity(dto.getStockQuantity());
             product.setEnabled(dto.getEnabled());
-            product.setCreatedAt(LocalDateTime.now());
-            product.setUpdatedAt(LocalDateTime.now());
             return product;
         };
     }

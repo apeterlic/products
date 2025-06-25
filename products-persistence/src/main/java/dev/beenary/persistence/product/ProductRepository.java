@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.Set;
@@ -18,25 +19,10 @@ public interface ProductRepository extends JpaRepository<ProductDb, UUID> {
      *
      * @param id [{@link UUID}] :: product ID.
      */
+    @Transactional
     @Modifying
     @Query("UPDATE ProductDb p SET p.deleted = true WHERE p.id = :id")
     void softDelete(@Param("id") UUID id);
-
-    /**
-     * Finds enabled and non deleted product by requested code.
-     *
-     * @param code [{@link String}] :: product code.
-     * @return result [{@link Optional &lt; ProductDb &gt; }] :: optional product.
-     */
-    Optional<ProductDb> findByCodeAndEnabledTrueAndDeletedFalse(final String code);
-
-    /**
-     * Finds enabled and non deleted product by requested id.
-     *
-     * @param id [{@link String}] :: product id.
-     * @return result [{@link Optional &lt; ProductDb &gt; }] :: optional product.
-     */
-    Optional<ProductDb> findByIdAndEnabledTrueAndDeletedFalse(final UUID id);
 
     /**
      * Retrieves all products matching the given set of product IDs.
@@ -49,5 +35,33 @@ public interface ProductRepository extends JpaRepository<ProductDb, UUID> {
     Optional<ProductDb> findByIdAndEnabledTrueAndDeletedFalseAndStockQuantityGreaterThanEqual(final UUID id,
                                                                                               final Integer quantity);
 
-    Optional<ProductDb> findByIdAndDeletedFalse(final UUID id);
+    /**
+     * Checks whether non deleted product by requested id exist.
+     * Used when a product is retrieved or about to be deleted.
+     *
+     * @param id [{@link UUID}] :: product id.
+     * @return result [{@link Optional &lt; ProductDb &gt; }] :: optional product.
+     */
+    boolean existsByIdAndDeletedFalse(final UUID id);
+
+    /**
+     * Checks whether non deleted product by requested code exist.
+     * Used when a product is updated.
+     *
+     * @param code [{@link String}] :: product code.
+     * @param id   [{@link UUID}] :: product id.
+     * @return result [{@link Optional &lt; ProductDb &gt; }] :: optional product.
+     */
+    boolean existsByCodeAndDeletedFalseAndIdNot(final String code,
+                                                final UUID id);
+
+    /**
+     * Checks whether non deleted product by requested code exist.
+     * Used when a product is created.
+     *
+     * @param code [{@link String}] :: product code.
+     * @return result [{@link Boolean }] :: true if exists, false otherwise.
+     */
+    boolean existsByCodeAndDeletedFalse(final String code);
+
 }

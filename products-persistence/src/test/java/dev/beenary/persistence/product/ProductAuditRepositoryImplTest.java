@@ -53,13 +53,12 @@ class ProductAuditRepositoryImplTest extends PostgresTestContainer {
         product.setEnabled(true);
         product.setStockQuantity(10);
         product.setId(productRepository.save(product).getId());
+        TestTransaction.flagForCommit();
+        TestTransaction.end();
     }
 
     @Test
     void givenSavedProduct_whenGetProductsAtRevision_thenReturnRevision() {
-        TestTransaction.flagForCommit();
-        TestTransaction.end();
-
         TestTransaction.start();
 
         final List<ProductDb> result =
@@ -75,9 +74,6 @@ class ProductAuditRepositoryImplTest extends PostgresTestContainer {
     void givenUpdatedProduct_whenGetProductsAtRevision_thenReturnLastRevisions() {
         product.setPrice(BigDecimal.valueOf(30.00));
         productRepository.save(product);
-
-        TestTransaction.flagForCommit();
-        TestTransaction.end();
 
         TestTransaction.start();
 

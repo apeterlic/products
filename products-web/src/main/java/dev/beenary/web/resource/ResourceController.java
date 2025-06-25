@@ -2,6 +2,7 @@ package dev.beenary.web.resource;
 
 import dev.beenary.api.category.GetCategoryResponse;
 import dev.beenary.api.currency.GetCurrencyResponse;
+import dev.beenary.common.utility.Defense;
 import dev.beenary.core.category.CategoryService;
 import dev.beenary.core.currency.CurrencyService;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +24,8 @@ public class ResourceController implements ResourceControllerDefinition {
     private final CategoryService categoryService;
 
     public ResourceController(final CurrencyService currencyService, final CategoryService categoryService) {
-        this.currencyService = currencyService;
-        this.categoryService = categoryService;
+        this.currencyService = Defense.notNull(currencyService, CurrencyService.class.getSimpleName());
+        this.categoryService = Defense.notNull(categoryService, CategoryService.class.getSimpleName());
     }
 
     @Override

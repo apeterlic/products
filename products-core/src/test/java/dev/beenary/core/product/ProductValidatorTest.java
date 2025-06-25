@@ -17,12 +17,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
-import java.util.Optional;
 import java.util.UUID;
 
 import static dev.beenary.core.DataGenerator.fromJson;
 import static dev.beenary.core.product.ProductValidator.ERROR_DUPLICATE_CODE;
-import static dev.beenary.core.product.ProductValidator.ERROR_PRODUCT_CODE_NOT_FOUND;
 import static dev.beenary.core.product.ProductValidator.ERROR_PRODUCT_NOT_FOUND;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -50,10 +48,7 @@ class ProductValidatorTest {
     void givenGetProductRequest_whenValidate_thenReturnOk() {
         final GetProductRequest request = new GetProductRequest();
         request.setId(UUID.randomUUID());
-
-        final ProductDb productDb = new ProductDb();
-        productDb.setStockQuantity(3);
-        when(productRepository.findByIdAndDeletedFalse(any())).thenReturn(Optional.of(productDb));
+        when(productRepository.existsByIdAndDeletedFalse(any())).thenReturn(true);
 
         final UUID result = productValidator.validate(request);
 
@@ -63,7 +58,7 @@ class ProductValidatorTest {
 
     @Test
     void givenGetProductRequestNoProduct_whenValidate_thenThrowException() {
-        when(productRepository.findByIdAndDeletedFalse(any())).thenReturn(Optional.empty());
+        when(productRepository.existsByIdAndDeletedFalse(any())).thenReturn(false);
 
         final GetProductRequest request = new GetProductRequest();
         request.setId(UUID.randomUUID());
@@ -79,7 +74,7 @@ class ProductValidatorTest {
     void givenCreateProductRequest_whenValidate_thenReturnOk() throws IOException {
         when(currencyRepository.existsByValue(any())).thenReturn(true);
         when(categoryRepository.existsByValue(any())).thenReturn(true);
-        when(productRepository.findByCodeAndEnabledTrueAndDeletedFalse(any())).thenReturn(Optional.empty());
+        when(productRepository.existsByCodeAndDeletedFalse(any())).thenReturn(false);
 
         final CreateProductRequest request = fromJson(CreateProductRequest.class, "product-create" +
                 ".json");
@@ -95,7 +90,7 @@ class ProductValidatorTest {
     void givenCreateProductRequestDuplicateCode_whenValidate_thenThrowException() throws IOException {
         when(currencyRepository.existsByValue(any())).thenReturn(true);
         when(categoryRepository.existsByValue(any())).thenReturn(true);
-        when(productRepository.findByCodeAndEnabledTrueAndDeletedFalse(any())).thenReturn(Optional.of(new ProductDb()));
+        when(productRepository.existsByCodeAndDeletedFalse(any())).thenReturn(true);
 
         final CreateProductRequest request = fromJson(CreateProductRequest.class, "product-create" +
                 ".json");
@@ -112,8 +107,8 @@ class ProductValidatorTest {
     void givenUpdateProductRequest_whenValidate_thenReturnOk() throws IOException {
         when(currencyRepository.existsByValue(any())).thenReturn(true);
         when(categoryRepository.existsByValue(any())).thenReturn(true);
-        lenient().when(productRepository.findByIdAndDeletedFalse(any())).thenReturn(Optional.of(new ProductDb()));
-        lenient().when(productRepository.findByCodeAndEnabledTrueAndDeletedFalse(any())).thenReturn(Optional.of(new ProductDb()));
+        lenient().when(productRepository.existsByIdAndDeletedFalse(any())).thenReturn(true);
+        lenient().when(productRepository.existsByCodeAndDeletedFalseAndIdNot(any(), any())).thenReturn(false);
 
         final UpdateProductRequest request = fromJson(UpdateProductRequest.class, "product-create" +
                 ".json");
@@ -128,8 +123,8 @@ class ProductValidatorTest {
     void givenUpdateProductRequestNoExistingProduct_whenValidate_thenThrowException() throws IOException {
         when(currencyRepository.existsByValue(any())).thenReturn(true);
         when(categoryRepository.existsByValue(any())).thenReturn(true);
-        lenient().when(productRepository.findByIdAndDeletedFalse(any())).thenReturn(Optional.empty());
-        lenient().when(productRepository.findByCodeAndEnabledTrueAndDeletedFalse(any())).thenReturn(Optional.empty());
+        lenient().when(productRepository.existsByIdAndDeletedFalse(any())).thenReturn(false);
+        lenient().when(productRepository.existsByCodeAndDeletedFalseAndIdNot(any(), any())).thenReturn(false);
 
         final UpdateProductRequest request = fromJson(UpdateProductRequest.class, "product-create" +
                 ".json");
@@ -146,8 +141,8 @@ class ProductValidatorTest {
     void givenUpdateProductRequestNoExistingCode_whenValidate_thenThrowException() throws IOException {
         when(currencyRepository.existsByValue(any())).thenReturn(true);
         when(categoryRepository.existsByValue(any())).thenReturn(true);
-        when(productRepository.findByIdAndDeletedFalse(any())).thenReturn(Optional.of(new ProductDb()));
-        when(productRepository.findByCodeAndEnabledTrueAndDeletedFalse(any())).thenReturn(Optional.empty());
+        lenient().when(productRepository.existsByIdAndDeletedFalse(any())).thenReturn(true);
+        lenient().when(productRepository.existsByCodeAndDeletedFalseAndIdNot(any(), any())).thenReturn(true);
 
         final UpdateProductRequest request = fromJson(UpdateProductRequest.class, "product-create" +
                 ".json");
@@ -156,7 +151,7 @@ class ProductValidatorTest {
                 () -> productValidator.validate(request));
 
         assertNotNull(exception);
-        assertEquals(String.format(ERROR_PRODUCT_CODE_NOT_FOUND, request.getPayload().getCode()),
+        assertEquals(String.format(ERROR_DUPLICATE_CODE, request.getPayload().getCode()),
                 exception.getMessage());
     }
 
@@ -167,7 +162,7 @@ class ProductValidatorTest {
 
         final ProductDb productDb = new ProductDb();
         productDb.setStockQuantity(3);
-        when(productRepository.findByIdAndDeletedFalse(any())).thenReturn(Optional.of(productDb));
+        when(productRepository.existsByIdAndDeletedFalse(any())).thenReturn(true);
 
         final UUID result = productValidator.validate(request);
 
@@ -177,7 +172,7 @@ class ProductValidatorTest {
 
     @Test
     void givenDeleteProductRequestNoProduct_whenValidate_thenThrowException() {
-        when(productRepository.findByIdAndDeletedFalse(any())).thenReturn(Optional.empty());
+        when(productRepository.existsByIdAndDeletedFalse(any())).thenReturn(false);
 
         final DeleteProductRequest request = new DeleteProductRequest();
         request.setId(UUID.randomUUID());

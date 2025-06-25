@@ -1,3 +1,3 @@
 ### Retrieves order with requested ID
-GET http://localhost:8080/beenary-products/v1/orders/2481d4e2-263a-4976-ae33-8fac7f347a1a
+GET http://localhost:8080/beenary-products/v1/orders/b3e3c9b2-1370-440a-936f-8d6fd83a52cd
 Content-Type: application/json

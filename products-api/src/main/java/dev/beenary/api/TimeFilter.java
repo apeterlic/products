@@ -1,6 +1,7 @@
 package dev.beenary.api;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import dev.beenary.common.exception.BusinessException;
 import lombok.Data;
 
 import java.io.Serial;
@@ -25,6 +26,10 @@ public class TimeFilter implements Serializable {
     private LocalDateTime to;
 
     public TimeFilter(final LocalDateTime from, final LocalDateTime to) {
+        if (to.isBefore(from)) {
+            throw new BusinessException("Field 'to' must greater than the value provided in the " +
+                    "field 'from'.");
+        }
         this.from = from;
         this.to = to;
     }

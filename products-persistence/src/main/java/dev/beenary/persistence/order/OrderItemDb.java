@@ -63,6 +63,7 @@ public class OrderItemDb extends BaseEntity {
             orderItemDetail.setName(entity.getProduct().getName());
             orderItemDetail.setDescription(entity.getProduct().getDescription());
             orderItemDetail.setCurrency(entity.getProduct().getCurrency());
+            orderItemDetail.setCategory(entity.getProduct().getCategory());
             orderItemDetail.setPrice(entity.getProduct().getPrice());
             orderItemDetail.setVat(entity.getProduct().getVat());
             orderItemDetail.setTotalPrice(entity.getProduct().getPrice()

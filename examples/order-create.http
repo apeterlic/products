@@ -4,26 +4,12 @@ Content-Type: application/json
 
 {
   "payload": {
-    "email": "ana@test.com",
+    "email": "test@test.com",
     "orderItems": [
       {
-        "productId": "fe9a2f65-931b-41e2-95aa-d47fa4a36a33",
-        "quantity": 2
-      },
-      {
-        "productId": "c86b76e9-d810-4b39-8ade-cfe433621b0d",
-        "quantity": 2
-      },
-      {
-        "productId": "abfee7ef-a490-4c2e-acb2-d80728d99e5e",
+        "productId": "29a4eebc-5aba-4d36-a965-f73b5dd50540",
         "quantity": 2
       }
     ]
   }
 }
-
-###
-# Ordhid, 9€
-# Book - Il piccolo principle, 13€
-# NEW Disney Mug, 20€ -> updated at 2025-06-25T06:48:40.187932; Disney Mug, 15€
-# 2025-06-25T06:46:52.338773

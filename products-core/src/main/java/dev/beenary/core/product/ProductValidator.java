@@ -13,7 +13,6 @@ import dev.beenary.persistence.product.ProductDb;
 import dev.beenary.persistence.product.ProductRepository;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -29,7 +28,6 @@ public class ProductValidator {
     public static final String ERROR_CATEGORY_NOT_FOUND = "Category %s not found.";
     public static final String ERROR_CURRENCY_NOT_FOUND = "Currency %s not found.";
     public static final String ERROR_DUPLICATE_CODE = "Product with code %s already exists.";
-    public static final String ERROR_PRODUCT_CODE_NOT_FOUND = "Product with code %s not found.";
 
     private final ProductRepository repository;
     private final CurrencyRepository currencyRepository;
@@ -64,7 +62,7 @@ public class ProductValidator {
         validateCurrency(request.getPayload().getCurrency());
         validateCategory(request.getPayload().getCategory());
         validateExistence(request.getId());
-        validateUniqueCode(request.getPayload().getCode());
+        validateUniqueCode(request.getPayload().getCode(), request.getId());
         return ProductDb.entityMapper().toEntity(request.getPayload());
     }
 
@@ -83,22 +81,34 @@ public class ProductValidator {
     }
 
     private void validateExistence(final UUID id) {
-        final Optional<ProductDb> product = repository.findByIdAndDeletedFalse(id);
-        if (product.isEmpty()) {
+        final boolean exists = repository.existsByIdAndDeletedFalse(id);
+        if (!exists) {
             throw new EntityNotFoundException(String.format(ERROR_PRODUCT_NOT_FOUND, id), id.toString());
         }
     }
 
-    private void validateUniqueCode(final String code) {
-        final Optional<ProductDb> product = repository.findByCodeAndEnabledTrueAndDeletedFalse(code);
-        if (product.isEmpty()) {
-            throw new BusinessException(String.format(ERROR_PRODUCT_CODE_NOT_FOUND, code));
+    /**
+     * Checks whether product with a given code already exists in the database. It doesn't
+     * consider current product.
+     *
+     * @param code [{@link String}] :: product code.
+     * @param id   [{@link UUID}] :: product id.
+     */
+    private void validateUniqueCode(final String code, final UUID id) {
+        final boolean exists = repository.existsByCodeAndDeletedFalseAndIdNot(code, id);
+        if (exists) {
+            throw new BusinessException(String.format(ERROR_DUPLICATE_CODE, code));
         }
     }
 
+    /**
+     * Checks whether product with a given code already exists in the database.
+     *
+     * @param code [{@link String}] :: product code.
+     */
     private void validateCodeExistence(final String code) {
-        final Optional<ProductDb> product = repository.findByCodeAndEnabledTrueAndDeletedFalse(code);
-        if (product.isPresent()) {
+        final boolean exists = repository.existsByCodeAndDeletedFalse(code);
+        if (exists) {
             throw new BusinessException(String.format(ERROR_DUPLICATE_CODE, code));
         }
     }

@@ -83,7 +83,7 @@ public interface ProductControllerDefinition {
      * @param size          [{@link Integer}] :: number of entities per page (optional)
      * @param page          [{@link Integer}] :: page number (optional)
      * @param sortBy        [{@link String}] :: sort column (optional)
-     * @param sortDirection [{@link SortingFilter.SortDirection}] :: sort direction (optional)
+     * @param sortDirection [{@link dev.beenary.api.SortingFilter}] :: sort direction (optional)
      * @return response [{@link SearchProductResponse}] :: the list of matching authorities
      */
     @Operation(summary = "Searches for products using the provided filter criteria.")

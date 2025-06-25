@@ -9,10 +9,12 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.transaction.TestTransaction;
 
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -45,33 +47,43 @@ class ProductRepositoryTest extends PostgresTestContainer {
     }
 
     @Test
-    void givenId_whenFindByIdAndEnabledTrueAndDeletedFalse_thenOk() {
-        final Optional<ProductDb> result =
-                productRepository.findByIdAndEnabledTrueAndDeletedFalse(product.getId());
+    void givenId_whenExistsByIdAndDeletedFalse_thenReturnTrue() {
+        final boolean result =
+                productRepository.existsByIdAndDeletedFalse(product.getId());
 
-        assertTrue(result.isPresent());
-        assertEquals(product.getId(), result.get().getId());
+        assertTrue(result);
     }
 
     @Test
     void givenId_whenSoftDelete_thenOk() {
         productRepository.softDelete(product.getId());
 
-        final Optional<ProductDb> result =
-                productRepository.findByIdAndEnabledTrueAndDeletedFalse(product.getId());
-        assertFalse(result.isPresent());
+        TestTransaction.flagForCommit();
+        TestTransaction.end();
 
-        final Optional<ProductDb> stillExists = productRepository.findById(product.getId());
-        assertTrue(stillExists.isPresent());
-        assertEquals(product.getId(), stillExists.get().getId());
+        TestTransaction.start();
+
+        final Optional<ProductDb> deletedEntity = productRepository.findById(product.getId());
+
+        assertTrue(deletedEntity.isPresent());
+        assertEquals(product.getId(), deletedEntity.get().getId());
+        assertTrue(deletedEntity.get().isDeleted());
     }
 
     @Test
-    void givenCode_whenFindByCodeAndEnabledTrueAndDeletedFalse_thenOk() {
-        final Optional<ProductDb> result =
-                productRepository.findByCodeAndEnabledTrueAndDeletedFalse("D001");
+    void givenCodeAndExistingId_whenExistsByCodeAndDeletedFalseAndIdNot_thenReturnFalse() {
+        final boolean result =
+                productRepository.existsByCodeAndDeletedFalseAndIdNot("D001", product.getId());
 
-        assertTrue(result.isPresent());
+        assertFalse(result);
+    }
+
+    @Test
+    void givenCodeAndNonExistingId_whenExistsByCodeAndDeletedFalseAndIdNot_thenReturnTrue() {
+        final boolean result =
+                productRepository.existsByCodeAndDeletedFalseAndIdNot("D001", UUID.randomUUID());
+
+        assertTrue(result);
     }
 
     @Test
@@ -101,11 +113,4 @@ class ProductRepositoryTest extends PostgresTestContainer {
         assertTrue(result.isEmpty());
     }
 
-    @Test
-    void givenId_whenFindByIdAndDeletedFalse_thenReturnProduct() {
-        final Optional<ProductDb> result =
-                productRepository.findByIdAndDeletedFalse(product.getId());
-
-        assertTrue(result.isPresent());
-    }
 }

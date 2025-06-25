@@ -1,5 +1,6 @@
 package dev.beenary.persistence;
 
+import dev.beenary.api.product.Product;
 import dev.beenary.persistence.order.OrderDb;
 import dev.beenary.persistence.order.OrderItemDb;
 import dev.beenary.persistence.product.ProductDb;
@@ -9,7 +10,21 @@ import java.util.List;
 
 public class TestDataGenerator {
 
-    public static ProductDb product() {
+    public static Product product() {
+        final Product product = new Product();
+        product.setCode("D001");
+        product.setName("Bonsai tree");
+        product.setDescription("Beautiful bonsai tree for every living room.");
+        product.setPrice(BigDecimal.valueOf(30));
+        product.setVat(25);
+        product.setCurrency("EUR");
+        product.setCategory("PHYSICAL");
+        product.setEnabled(true);
+        product.setStockQuantity(10);
+        return product;
+    }
+
+    public static ProductDb productDb() {
         final ProductDb product = new ProductDb();
         product.setCode("D001");
         product.setName("Bonsai tree");

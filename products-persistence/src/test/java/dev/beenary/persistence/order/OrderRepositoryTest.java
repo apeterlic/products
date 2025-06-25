@@ -30,19 +30,21 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ComponentScan(basePackages = "dev.beenary.persistence")
 class OrderRepositoryTest extends PostgresTestContainer {
 
-    final LocalDateTime createdAt = LocalDateTime.of(2025, 6, 25, 7, 40);
-    final LocalDateTime from = LocalDateTime.of(2025, 6, 24, 10, 0);
-    final LocalDateTime to = LocalDateTime.now().plusDays(1);
-    OrderDb order;
+    private final LocalDateTime from = LocalDateTime.of(2025, 6, 24, 10, 0);
+
+    private final LocalDateTime to = LocalDateTime.now().plusDays(1);
+
     @Autowired
     private OrderRepository orderRepository;
+
     @Autowired
     private ProductRepository productRepository;
-    private ProductDb product;
+
+    private OrderDb order;
 
     @BeforeEach
     void setup() {
-        final ProductDb product = TestDataGenerator.product();
+        final ProductDb product = TestDataGenerator.productDb();
         product.setId(productRepository.save(product).getId());
 
         orderRepository.deleteAll();

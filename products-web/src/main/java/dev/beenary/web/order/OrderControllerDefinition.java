@@ -1,5 +1,6 @@
 package dev.beenary.web.order;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import dev.beenary.api.SortingFilter;
 import dev.beenary.api.order.create.CreateOrderRequest;
 import dev.beenary.api.order.create.CreateOrderResponse;
@@ -8,6 +9,7 @@ import dev.beenary.api.order.read.SearchOrderResponse;
 import dev.beenary.common.utility.SortDirection;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +23,7 @@ import java.util.UUID;
 
 import static dev.beenary.api.SortingFilter.DEFAULT_SORT_COLUMN;
 import static dev.beenary.api.SortingFilter.DEFAULT_SORT_DIRECTION;
+import static dev.beenary.api.TimeFilter.DEFAULT_DATE_TIME_FORMAT;
 
 /**
  * Provides REST API endpoints for managing orders.
@@ -41,8 +44,6 @@ public interface OrderControllerDefinition {
     @Operation(summary = "Gets order based on the provided ID.")
     @GetMapping("/{id}")
     ResponseEntity<GetOrderResponse> get(@PathVariable("id") final UUID id);
-
-    // FIXME - group by product Id and check quantity
 
     /**
      * Creates new order.
@@ -72,6 +73,8 @@ public interface OrderControllerDefinition {
                                                @RequestParam(defaultValue = "10") int size,
                                                @RequestParam(defaultValue = DEFAULT_SORT_COLUMN) String sortBy,
                                                @RequestParam(defaultValue = DEFAULT_SORT_DIRECTION) SortDirection sortDirection,
-                                               @RequestParam LocalDateTime from,
-                                               @RequestParam LocalDateTime to);
+                                               @RequestParam @NotNull(message = "${order-from.empty}")
+                                               @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DEFAULT_DATE_TIME_FORMAT) LocalDateTime from,
+                                               @RequestParam @NotNull(message = "${order-to.empty}")
+                                               @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DEFAULT_DATE_TIME_FORMAT) LocalDateTime to);
 }

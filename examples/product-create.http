@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "payload": {
-    "code": "DM001",
+    "code": "DM0010",
     "name": "Disney mug",
     "description": "Modern and durable mug for children.",
     "currency": "EUR",
