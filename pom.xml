@@ -14,7 +14,7 @@
     <version>1.0.0</version>
     <packaging>pom</packaging>
     <name>products</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Product and order management project</description>
 
     <modules>
         <module>products-common</module>
