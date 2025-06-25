@@ -17,11 +17,11 @@
     <description>Demo project for Spring Boot</description>
 
     <modules>
-        <module>common</module>
-        <module>persistence</module>
-        <module>core</module>
-        <module>web</module>
-        <module>api</module>
+        <module>products-common</module>
+        <module>products-persistence</module>
+        <module>products-core</module>
+        <module>products-web</module>
+        <module>products-api</module>
     </modules>
 
     <properties>
@@ -41,7 +41,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <scope>test</scope> <!-- Only used for tests -->
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope> <!-- Only used for tests -->
         </dependency>
     </dependencies>
 
@@ -56,10 +61,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-            </plugin>
-            <!-- Surefire Plugin -->
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -123,7 +124,9 @@
                         <failOnViolation>true</failOnViolation>
                         <includeTests>true</includeTests>
                         <rulesets>
-                            <ruleset>${maven.multiModuleProjectDirectory}/code-quality/pmd/pmd-ruleset.xml</ruleset>
+                            <ruleset>
+                                ${maven.multiModuleProjectDirectory}/code-quality/pmd/pmd-ruleset.xml
+                            </ruleset>
                         </rulesets>
                         <excludeRoots>
                             <excludeRoot>target/generated-sources</excludeRoot>
