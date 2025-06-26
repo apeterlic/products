@@ -32,6 +32,14 @@ public interface ProductRepository extends JpaRepository<ProductDb, UUID> {
      */
     Set<ProductDb> findByIdIn(final Set<UUID> productIds);
 
+    /**
+     * Finds enabled non deleted product by requested ID and a stock quantity greater or equal than
+     * requested.
+     *
+     * @param id       [{@link UUID}] :: product id.
+     * @param quantity [{@link Integer}] :: product quantity.
+     * @return result [{@link Optional &lt; ProductDb &gt; }] :: optional product.
+     */
     Optional<ProductDb> findByIdAndEnabledTrueAndDeletedFalseAndStockQuantityGreaterThanEqual(final UUID id,
                                                                                               final Integer quantity);
 
@@ -40,7 +48,7 @@ public interface ProductRepository extends JpaRepository<ProductDb, UUID> {
      * Used when a product is retrieved or about to be deleted.
      *
      * @param id [{@link UUID}] :: product id.
-     * @return result [{@link Optional &lt; ProductDb &gt; }] :: optional product.
+     * @return result [{@link Boolean}] :: true if exists, false otherwise.
      */
     boolean existsByIdAndDeletedFalse(final UUID id);
 
@@ -50,7 +58,7 @@ public interface ProductRepository extends JpaRepository<ProductDb, UUID> {
      *
      * @param code [{@link String}] :: product code.
      * @param id   [{@link UUID}] :: product id.
-     * @return result [{@link Optional &lt; ProductDb &gt; }] :: optional product.
+     * @return result [{@link Boolean}] :: true if exists, false otherwise.
      */
     boolean existsByCodeAndDeletedFalseAndIdNot(final String code,
                                                 final UUID id);

@@ -11,11 +11,11 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
-public class ProductAuditServiceImpl implements ProductAuditService {
+public class InternalProductAuditService implements ProductAuditService {
 
     private final ProductAuditRepository productAuditRepository;
 
-    public ProductAuditServiceImpl(final ProductAuditRepository productAuditRepository) {
+    public InternalProductAuditService(final ProductAuditRepository productAuditRepository) {
         this.productAuditRepository = Defense.notNull(productAuditRepository,
                 ProductAuditRepository.class.getSimpleName());
     }

@@ -1,5 +1,6 @@
 package dev.beenary.core.product;
 
+import dev.beenary.api.product.Product;
 import dev.beenary.api.product.create.CreateProductRequest;
 import dev.beenary.api.product.read.GetProductRequest;
 import dev.beenary.api.product.read.GetProductResponse;
@@ -16,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.UUID;
 
 import static dev.beenary.core.product.ProductValidator.ERROR_DUPLICATE_CODE;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -24,7 +26,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ProductServiceImplTest {
+class ProductServiceTest {
 
     @Mock
     private ProductRepository productRepository;
@@ -33,7 +35,7 @@ class ProductServiceImplTest {
     private ProductValidator productValidator;
 
     @InjectMocks
-    private ProductServiceImpl productService;
+    private InternalProductService productService;
 
     @Test
     void givenGetProductRequest_whenGet_thenReturnGetProductResponse() {
@@ -50,24 +52,33 @@ class ProductServiceImplTest {
     @Test
     void givenCreateProductRequestAlreadyExistingCode_whenCreate_thenThrowException() {
         final CreateProductRequest request = new CreateProductRequest();
+        request.setPayload(new Product());
+        request.getPayload().setCode("TEST");
 
-        final String code = "ABC";
-        when(productValidator.validate(request)).thenThrow(new BusinessException(String.format(ERROR_DUPLICATE_CODE, code)));
+        final String error = String.format(ERROR_DUPLICATE_CODE, request.getPayload().getCode());
+        when(productValidator.validate(request)).thenThrow(new BusinessException(error));
 
-        assertThrows(BusinessException.class, () -> productService.create(request));
+        BusinessException exception = assertThrows(BusinessException.class, () -> productService.create(request));
 
+        assertNotNull(exception);
+        assertEquals(error, exception.getMessage());
         verify(productRepository, never()).save(any());
     }
 
     @Test
     void givenUpdateProductRequestAlreadyExistingCode_whenUpdate_thenThrowException() {
         final UpdateProductRequest request = new UpdateProductRequest();
+        request.setPayload(new Product());
+        request.getPayload().setCode("TEST");
 
-        final String code = "ABC";
-        when(productValidator.validate(request)).thenThrow(new BusinessException(String.format(ERROR_DUPLICATE_CODE, code)));
+        final String error = String.format(ERROR_DUPLICATE_CODE, request.getPayload().getCode());
+        when(productValidator.validate(request)).thenThrow(new BusinessException(error));
 
-        assertThrows(BusinessException.class, () -> productService.update(request));
+        BusinessException exception = assertThrows(BusinessException.class,
+                () -> productService.update(request));
 
+        assertNotNull(exception);
+        assertEquals(error, exception.getMessage());
         verify(productRepository, never()).save(any());
     }
 

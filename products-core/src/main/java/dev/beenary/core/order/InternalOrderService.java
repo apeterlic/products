@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 import static dev.beenary.core.order.OrderValidator.ERROR_PRODUCT_NOT_FOUND;
 
 @Service
-public class OrderServiceImpl implements OrderService {
+public class InternalOrderService implements OrderService {
 
     private final OrderRepository repository;
 
@@ -35,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final ProductAuditService productAuditService;
 
-    OrderServiceImpl(final OrderRepository repository, final OrderValidator validator, final ProductAuditService productAuditService) {
+    InternalOrderService(final OrderRepository repository, final OrderValidator validator, final ProductAuditService productAuditService) {
         this.repository = Defense.notNull(repository, OrderRepository.class.getSimpleName());
         this.validator = Defense.notNull(validator, OrderValidator.class.getSimpleName());
         this.productAuditService = Defense.notNull(productAuditService, ProductAuditService.class.getSimpleName());

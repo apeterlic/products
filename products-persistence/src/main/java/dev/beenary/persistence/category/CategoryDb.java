@@ -1,7 +1,7 @@
 package dev.beenary.persistence.category;
 
 import dev.beenary.api.Resource;
-import dev.beenary.common.utility.ApiMapper;
+import dev.beenary.persistence.utility.ApiMapper;
 import dev.beenary.persistence.BaseEntity;
 import dev.beenary.persistence.ColumnName;
 import dev.beenary.persistence.Tables;
@@ -23,7 +23,7 @@ public class CategoryDb extends BaseEntity {
     @Column(name = ColumnName.NAME)
     private String value;
 
-    public static ApiMapper<Resource, CategoryDb> apiMapper() {
+    public static ApiMapper<CategoryDb, Resource> apiMapper() {
         return entity -> {
             final Resource product = new Resource();
             product.setName(entity.getValue());

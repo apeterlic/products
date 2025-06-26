@@ -3,8 +3,8 @@ package dev.beenary.persistence.order;
 import dev.beenary.api.order.create.Order;
 import dev.beenary.api.order.read.OrderDetail;
 import dev.beenary.api.order.read.OrderItemDetail;
-import dev.beenary.common.utility.ApiMapper;
-import dev.beenary.common.utility.EntityMapper;
+import dev.beenary.persistence.utility.ApiMapper;
+import dev.beenary.persistence.utility.EntityMapper;
 import dev.beenary.persistence.BaseEntity;
 import dev.beenary.persistence.ColumnName;
 import dev.beenary.persistence.Tables;
@@ -36,7 +36,7 @@ public class OrderDb extends BaseEntity {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<OrderItemDb> orderItems;
 
-    public static EntityMapper<OrderDb, Order> entityMapper(final ProductRepository productRepository) {
+    public static EntityMapper<Order, OrderDb> entityMapper(final ProductRepository productRepository) {
         return dto -> {
             final OrderDb order = new OrderDb();
             order.setCustomerEmail(dto.getEmail());
@@ -46,7 +46,7 @@ public class OrderDb extends BaseEntity {
         };
     }
 
-    public static ApiMapper<OrderDetail, OrderDb> apiMapper() {
+    public static ApiMapper<OrderDb, OrderDetail> apiMapper() {
         return entity -> {
             final OrderDetail orderDetail = new OrderDetail();
             orderDetail.setId(entity.getId());

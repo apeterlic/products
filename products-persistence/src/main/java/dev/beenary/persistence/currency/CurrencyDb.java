@@ -1,7 +1,7 @@
 package dev.beenary.persistence.currency;
 
 import dev.beenary.api.Resource;
-import dev.beenary.common.utility.ApiMapper;
+import dev.beenary.persistence.utility.ApiMapper;
 import dev.beenary.persistence.BaseEntity;
 import dev.beenary.persistence.ColumnName;
 import dev.beenary.persistence.Tables;
@@ -23,7 +23,7 @@ public class CurrencyDb extends BaseEntity {
     @Column(name = ColumnName.CODE)
     private String value;
 
-    public static ApiMapper<Resource, CurrencyDb> apiMapper() {
+    public static ApiMapper<CurrencyDb, Resource> apiMapper() {
         return entity -> {
             final Resource product = new Resource();
             product.setName(entity.getValue());

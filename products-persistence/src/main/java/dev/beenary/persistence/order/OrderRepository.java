@@ -12,7 +12,7 @@ import java.util.UUID;
 public interface OrderRepository extends JpaRepository<OrderDb, UUID> {
 
     /**
-     * Finds orders by requested creation time.
+     * Finds orders within given period of time.
      *
      * @param from     [{@link LocalDateTime}] :: order creation time.
      * @param to       [{@link LocalDateTime}] :: order creation time.

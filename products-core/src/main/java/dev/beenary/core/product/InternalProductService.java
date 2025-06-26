@@ -23,13 +23,13 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class ProductServiceImpl implements ProductService {
+public class InternalProductService implements ProductService {
 
     private final ProductRepository repository;
 
     private final ProductValidator validator;
 
-    ProductServiceImpl(final ProductRepository repository, final ProductValidator validator) {
+    InternalProductService(final ProductRepository repository, final ProductValidator validator) {
         this.repository = Defense.notNull(repository, ProductRepository.class.getSimpleName());
         this.validator = Defense.notNull(validator, ProductValidator.class.getSimpleName());
     }

@@ -1,7 +1,7 @@
 package dev.beenary.web.resource;
 
-import dev.beenary.api.category.GetCategoryResponse;
-import dev.beenary.api.currency.GetCurrencyResponse;
+import dev.beenary.api.category.read.GetCategoryResponse;
+import dev.beenary.api.currency.read.GetCurrencyResponse;
 import dev.beenary.common.utility.Defense;
 import dev.beenary.core.category.CategoryService;
 import dev.beenary.core.currency.CurrencyService;

@@ -3,8 +3,8 @@ package dev.beenary.persistence.order;
 import dev.beenary.api.order.create.OrderItem;
 import dev.beenary.api.order.read.OrderItemDetail;
 import dev.beenary.common.exception.EntityNotFoundException;
-import dev.beenary.common.utility.ApiMapper;
-import dev.beenary.common.utility.EntityMapper;
+import dev.beenary.persistence.utility.ApiMapper;
+import dev.beenary.persistence.utility.EntityMapper;
 import dev.beenary.persistence.BaseEntity;
 import dev.beenary.persistence.ColumnName;
 import dev.beenary.persistence.Tables;
@@ -41,7 +41,7 @@ public class OrderItemDb extends BaseEntity {
     @Column(name = ColumnName.QUANTITY, nullable = false)
     private Integer quantity;
 
-    public static EntityMapper<OrderItemDb, OrderItem> entityMapper(final ProductRepository productRepository, final OrderDb order) {
+    public static EntityMapper<OrderItem, OrderItemDb> entityMapper(final ProductRepository productRepository, final OrderDb order) {
         return dto -> {
             final OrderItemDb orderItem = new OrderItemDb();
             final ProductDb product = productRepository.findById(dto.getProductId())
@@ -55,7 +55,7 @@ public class OrderItemDb extends BaseEntity {
         };
     }
 
-    public static ApiMapper<OrderItemDetail, OrderItemDb> apiMapper() {
+    public static ApiMapper<OrderItemDb, OrderItemDetail> apiMapper() {
         return entity -> {
             final OrderItemDetail orderItemDetail = new OrderItemDetail();
             orderItemDetail.setId(entity.getId());

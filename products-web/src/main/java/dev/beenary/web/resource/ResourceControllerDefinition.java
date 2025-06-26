@@ -1,7 +1,7 @@
 package dev.beenary.web.resource;
 
-import dev.beenary.api.category.GetCategoryResponse;
-import dev.beenary.api.currency.GetCurrencyResponse;
+import dev.beenary.api.category.read.GetCategoryResponse;
+import dev.beenary.api.currency.read.GetCurrencyResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

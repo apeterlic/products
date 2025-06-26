@@ -23,7 +23,6 @@ public final class ColumnName {
     public static final String UPDATED_AT = "updated_at";
     public static final String PRODUCT_ID = "product_id";
     public static final String ORDER_ID = "order_id";
-    public static final String VERSION = "version";
     public static final String QUANTITY = "quantity";
 
     /**

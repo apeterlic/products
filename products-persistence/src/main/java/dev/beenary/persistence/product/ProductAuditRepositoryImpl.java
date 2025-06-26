@@ -28,18 +28,18 @@ public class ProductAuditRepositoryImpl implements ProductAuditRepository {
      * NOTE: Deleted entities are not included in the search.
      *
      * @param productIds     [{@link Set}&lt;{@link UUID}&gt;] :: the set of product IDs to look up.
-     * @param orderCreatedAt [{@link LocalDateTime}] :: date to find the revision number it
+     * @param revisionDate [{@link LocalDateTime}] :: date to find the revision number it
      *                       corresponds to.
      * @return result ::  [{@link List}&lt;{@link ProductDb}&gt;] :: list of products at specific
      * revision.
      */
     @Override
     public List<ProductDb> getProductsAtRevision(final Set<UUID> productIds,
-                                                 final LocalDateTime orderCreatedAt) {
+                                                 final LocalDateTime revisionDate) {
         final AuditReader reader = AuditReaderFactory.get(entityManager);
 
         // vertical - find revision for requested time
-        final Number revision = reader.getRevisionNumberForDate(orderCreatedAt);
+        final Number revision = reader.getRevisionNumberForDate(revisionDate);
         log.debug("Revision number: {}", revision.intValue());
 
         // horizontal - find data at revision

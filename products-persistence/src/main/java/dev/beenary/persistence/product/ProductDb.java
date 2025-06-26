@@ -1,8 +1,8 @@
 package dev.beenary.persistence.product;
 
 import dev.beenary.api.product.Product;
-import dev.beenary.common.utility.ApiMapper;
-import dev.beenary.common.utility.EntityMapper;
+import dev.beenary.persistence.utility.ApiMapper;
+import dev.beenary.persistence.utility.EntityMapper;
 import dev.beenary.persistence.BaseEntity;
 import dev.beenary.persistence.ColumnName;
 import dev.beenary.persistence.Tables;
@@ -55,7 +55,7 @@ public class ProductDb extends BaseEntity {
     @Column(name = ColumnName.DELETED, nullable = false)
     private boolean deleted;
 
-    public static ApiMapper<Product, ProductDb> apiMapper() {
+    public static ApiMapper<ProductDb, Product> apiMapper() {
         return entity -> {
             final Product product = new Product();
             product.setId(entity.getId());
@@ -74,7 +74,7 @@ public class ProductDb extends BaseEntity {
         };
     }
 
-    public static EntityMapper<ProductDb, Product> entityMapper() {
+    public static EntityMapper<Product, ProductDb> entityMapper() {
         return dto -> {
             final ProductDb product = new ProductDb();
             product.setId(dto.getId());

@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>products-web</artifactId>
+    <name>Products - Web</name>
     <packaging>jar</packaging>
 
     <properties>

@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>products-persistence</artifactId>
+    <name>Products - Persistence</name>
     <packaging>jar</packaging>
 
     <properties>
