@@ -7,7 +7,7 @@ Content-Type: application/json
     "email": "test@test.com",
     "orderItems": [
       {
-        "productId": "29a4eebc-5aba-4d36-a965-f73b5dd50540",
+        "productId": "3b4814cc-0cce-4f83-b7d0-a51151d4a31a",
         "quantity": 2
       }
     ]

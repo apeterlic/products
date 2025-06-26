@@ -4,12 +4,13 @@ import dev.beenary.api.ApiErrorResponse;
 import dev.beenary.api.ErrorMessage;
 import dev.beenary.common.exception.BusinessException;
 import dev.beenary.common.exception.EntityNotFoundException;
-import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -27,12 +28,13 @@ import java.util.List;
  * @author anapeterlic
  * @since 1.0
  */
-@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private static final String DEFAULT_ERROR_MESSAGE = "There was an error processing the " +
             "request. Please try again later.";
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * Handles any uncaught exception that can occur during application execution.
@@ -42,7 +44,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleRuntimeException(@NonNull final Exception exception) {
-        log.error(exception.getMessage(), exception);
+        logger.error(exception.getMessage(), exception);
         return new ResponseEntity<>(ApiErrorResponse.of(Collections.singletonList(new ErrorMessage("", DEFAULT_ERROR_MESSAGE))),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -55,6 +57,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<Object> handleBusinessException(@NonNull final BusinessException exception) {
+        logger.error(exception.getMessage(), exception);
         return new ResponseEntity<>(ApiErrorResponse.of(Collections.singletonList(new ErrorMessage("", exception.getMessage()))),
                 HttpStatus.BAD_REQUEST);
     }
@@ -68,6 +71,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Object> handleEntityNotFoundException(@NonNull final EntityNotFoundException exception) {
+        logger.error(exception.getMessage(), exception);
         return new ResponseEntity<>(ApiErrorResponse.of(Collections.singletonList(new ErrorMessage(exception.getReference(), exception.getMessage()))),
                 HttpStatus.NOT_FOUND);
     }

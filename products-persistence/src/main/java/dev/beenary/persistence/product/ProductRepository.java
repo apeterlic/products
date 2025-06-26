@@ -1,5 +1,7 @@
 package dev.beenary.persistence.product;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -72,4 +74,11 @@ public interface ProductRepository extends JpaRepository<ProductDb, UUID> {
      */
     boolean existsByCodeAndDeletedFalse(final String code);
 
+    /**
+     * Retrieves non deleted products.
+     *
+     * @param pageable [{@link Pageable}] :: pagination and sorting criteria.
+     * @return result [{@link Page &lt; ProductDb &gt; }] :: paginated products.
+     */
+    Page<ProductDb> findAllByDeletedFalse(final Pageable pageable);
 }

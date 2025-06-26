@@ -1,14 +1,14 @@
 ### Updates existing product
-PUT http://localhost:8080/beenary-products/v1/products/29a4eebc-5aba-4d36-a965-f73b5dd50540
+PUT http://localhost:8080/beenary-products/v1/products/3b4814cc-0cce-4f83-b7d0-a51151d4a31a
 Content-Type: application/json
 
 {
   "payload": {
-    "code": "DM002",
-    "name": "Disney mug",
+    "code": "DM0015",
+    "name": "Disney mug 2",
     "description": "Modern and durable mug for children.",
     "currency": "EUR",
-    "price": 32,
+    "price": 12,
     "vat": 25,
     "category": "PHYSICAL",
     "stockQuantity": 10,

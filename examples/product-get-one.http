@@ -1,0 +1,3 @@
+### Gets products
+GET http://localhost:8080/beenary-products/v1/products/3b4814cc-0cce-4f83-b7d0-a51151d4a31a
+Content-Type: application/json

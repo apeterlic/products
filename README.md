@@ -12,11 +12,11 @@ For guidelines on how to start the application locally, please refer to the
    could be easily solved by grouping order items).
 4. All data in the product (except id and created_at) are modifiable.
 5. When the product is deleted, the soft deletion is performed.
-5. Orders cannot be updated or removed.
+6. Orders cannot be updated or removed.
 
 ### Authentication Proposal:
 
-1. Authentication uses Open Authorization (OAuth 2.0) — login via SSO (e.g., Keycloak); 
+1. Authentication uses Open Authorization (OAuth 2.0) — login via SSO (e.g., Keycloak);
    communication between frontend and backend done by passing a JWT Token.
 2. Each user should belong to a specific client/organization.
 3. Define specific roles and permissions.
@@ -44,4 +44,3 @@ For guidelines on how to start the application locally, please refer to the
    mechanism would be needed for the requested product quantity.
 6. Once the application is ready to be deployed, define environment variables for configuration
    data (from application.yml).
-~~7. For date fields ‘from’ and ‘to’: ‘to’ cannot be before ‘from’, and neither can be in the future.~~

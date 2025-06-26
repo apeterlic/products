@@ -13,6 +13,8 @@ import dev.beenary.core.product.ProductAuditService;
 import dev.beenary.persistence.order.OrderDb;
 import dev.beenary.persistence.order.OrderRepository;
 import dev.beenary.persistence.product.ProductDb;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +31,8 @@ import static dev.beenary.core.order.OrderValidator.ERROR_PRODUCT_NOT_FOUND;
 @Service
 public class InternalOrderService implements OrderService {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     private final OrderRepository repository;
 
     private final OrderValidator validator;
@@ -43,6 +47,7 @@ public class InternalOrderService implements OrderService {
 
     @Override
     public GetOrderResponse get(final GetOrderRequest request) {
+        logger.debug("get() >> orderId {}", request.getId());
         final OrderDb orderDb = repository.getReferenceById(validator.validate(request));
         findCorrectProductRevision(orderDb);
         return new GetOrderResponse(OrderDb.apiMapper().toDto(orderDb));
@@ -51,6 +56,7 @@ public class InternalOrderService implements OrderService {
     @Override
     public CreateOrderResponse create(final CreateOrderRequest request) {
         final OrderDb orderDb = repository.save(validator.validate(request));
+        logger.debug("create() << orderId {}", orderDb.getId());
         return new CreateOrderResponse(OrderDb.apiMapper().toDto(orderDb));
     }
 
@@ -73,14 +79,17 @@ public class InternalOrderService implements OrderService {
                 orders.getTotalElements(), orders.getTotalPages());
     }
 
+    /**
+     * For given order, finds a and sets products at specific revision - date and time when order
+     * was created.
+     *
+     * @param order [{@link OrderDb}] :: the order DB entity.
+     */
     private void findCorrectProductRevision(final OrderDb order) {
-        //get products from each order
         final Set<UUID> productIds = order.getOrderItems().stream().map(item -> item.getProduct().getId()).collect(Collectors.toSet());
 
         // find revisions for products
         final List<ProductDb> auditedProducts = productAuditService.getProductsAtRevision(productIds, order.getCreatedAt());
-
-        // set correct product
         order.getOrderItems().forEach(item -> {
             item.setProduct(auditedProducts.stream().filter(product -> product.getId()
                     .equals(item.getProduct().getId())).findFirst().orElseThrow(() -> new EntityNotFoundException(String.format(ERROR_PRODUCT_NOT_FOUND, item.getProduct().getId()), item.getProduct().getId().toString())));

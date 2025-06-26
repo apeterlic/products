@@ -2,10 +2,11 @@ package dev.beenary.persistence.product;
 
 import dev.beenary.common.utility.Defense;
 import jakarta.persistence.EntityManager;
-import lombok.extern.slf4j.Slf4j;
 import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.query.AuditEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -13,9 +14,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-@Slf4j
 @Repository
 public class ProductAuditRepositoryImpl implements ProductAuditRepository {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final EntityManager entityManager;
 
@@ -27,9 +29,9 @@ public class ProductAuditRepositoryImpl implements ProductAuditRepository {
      * Gets products form the audit table at specific revision.
      * NOTE: Deleted entities are not included in the search.
      *
-     * @param productIds     [{@link Set}&lt;{@link UUID}&gt;] :: the set of product IDs to look up.
+     * @param productIds   [{@link Set}&lt;{@link UUID}&gt;] :: the set of product IDs to look up.
      * @param revisionDate [{@link LocalDateTime}] :: date to find the revision number it
-     *                       corresponds to.
+     *                     corresponds to.
      * @return result ::  [{@link List}&lt;{@link ProductDb}&gt;] :: list of products at specific
      * revision.
      */
@@ -40,7 +42,7 @@ public class ProductAuditRepositoryImpl implements ProductAuditRepository {
 
         // vertical - find revision for requested time
         final Number revision = reader.getRevisionNumberForDate(revisionDate);
-        log.debug("Revision number: {}", revision.intValue());
+        logger.debug("Revision number: {}", revision.intValue());
 
         // horizontal - find data at revision
         return reader.createQuery()

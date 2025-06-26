@@ -34,11 +34,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope> <!-- Only used for tests -->
@@ -120,7 +115,7 @@
                         <includeTests>true</includeTests>
                         <rulesets>
                             <ruleset>
-                                ${maven.multiModuleProjectDirectory}/code-quality/pmd/pmd-ruleset.xml
+                                ../code-quality/pmd/pmd-ruleset.xml
                             </ruleset>
                         </rulesets>
                         <excludeRoots>
