@@ -2,7 +2,6 @@ package dev.beenary.core.currency;
 
 import dev.beenary.api.currency.read.GetCurrencyResponse;
 import dev.beenary.common.utility.Defense;
-import dev.beenary.persistence.currency.CurrencyDb;
 import dev.beenary.persistence.currency.CurrencyRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +17,6 @@ public class InternalCurrencyService implements CurrencyService {
 
     @Override
     public GetCurrencyResponse findAll() {
-        return new GetCurrencyResponse(CurrencyDb.apiMapper().toUnmodifieableDtoList(currencyRepository.findAll()));
+        return new GetCurrencyResponse(CurrencyMapper.apiMapper().toUnmodifieableDtoList(currencyRepository.findAll()));
     }
 }

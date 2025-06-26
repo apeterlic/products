@@ -48,7 +48,7 @@ public class ProductValidator {
         validateCurrency(request.getPayload().getCurrency());
         validateCategory(request.getPayload().getCategory());
         validateCodeExistence(request.getPayload().getCode());
-        return ProductDb.entityMapper().toEntity(request.getPayload());
+        return ProductMapper.entityMapper().toEntity(request.getPayload());
     }
 
     public UUID validate(final DeleteProductRequest request) {
@@ -63,7 +63,7 @@ public class ProductValidator {
         validateCategory(request.getPayload().getCategory());
         validateExistence(request.getId());
         validateUniqueCode(request.getPayload().getCode(), request.getId());
-        return ProductDb.entityMapper().toEntity(request.getPayload());
+        return ProductMapper.entityMapper().toEntity(request.getPayload());
     }
 
     private void validateCategory(final String category) {

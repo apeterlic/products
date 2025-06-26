@@ -22,12 +22,12 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>products-common</artifactId>
+            <artifactId>products-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>products-api</artifactId>
+            <artifactId>products-common</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

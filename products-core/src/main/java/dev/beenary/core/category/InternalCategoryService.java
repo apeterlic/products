@@ -2,7 +2,6 @@ package dev.beenary.core.category;
 
 import dev.beenary.api.category.read.GetCategoryResponse;
 import dev.beenary.common.utility.Defense;
-import dev.beenary.persistence.category.CategoryDb;
 import dev.beenary.persistence.category.CategoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +17,7 @@ public class InternalCategoryService implements CategoryService {
 
     @Override
     public GetCategoryResponse findAll() {
-        return new GetCategoryResponse(CategoryDb.apiMapper().toUnmodifieableDtoList(categoryRepository.findAll()));
+        return new GetCategoryResponse(CategoryMapper.apiMapper().toUnmodifieableDtoList(categoryRepository.findAll()));
     }
 
 }

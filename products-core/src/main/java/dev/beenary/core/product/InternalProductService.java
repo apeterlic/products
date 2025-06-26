@@ -42,7 +42,7 @@ public class InternalProductService implements ProductService {
     public GetProductResponse get(final GetProductRequest request) throws EntityNotFoundException {
         logger.debug("get() >> productId {}", request.getId());
         final ProductDb productDb = repository.getReferenceById(validator.validate(request));
-        return new GetProductResponse(ProductDb.apiMapper().toDto(productDb));
+        return new GetProductResponse(ProductMapper.apiMapper().toDto(productDb));
     }
 
     @Override
@@ -56,7 +56,7 @@ public class InternalProductService implements ProductService {
     public UpdateProductResponse update(final UpdateProductRequest request) throws EntityNotFoundException {
         logger.debug("update() >> productId {}", request.getId());
         final ProductDb productDb = repository.save(validator.validate(request));
-        return new UpdateProductResponse(ProductDb.apiMapper().toDto(productDb));
+        return new UpdateProductResponse(ProductMapper.apiMapper().toDto(productDb));
     }
 
     @Override
@@ -74,6 +74,6 @@ public class InternalProductService implements ProductService {
         final Pageable pageable = PageRequest.of(request.getPaginationFilter().getPage() - 1,
                 request.getPaginationFilter().getEntitiesPerPage(), sort);
         final Page<ProductDb> products = repository.findAllByDeletedFalse(pageable);
-        return new SearchProductResponse(ProductDb.apiMapper().toUnmodifieableDtoList(products.getContent()), products.getTotalElements(), products.getTotalPages());
+        return new SearchProductResponse(ProductMapper.apiMapper().toUnmodifieableDtoList(products.getContent()), products.getTotalElements(), products.getTotalPages());
     }
 }

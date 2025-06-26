@@ -46,7 +46,7 @@ public class OrderValidator {
                 .getOrderItems()
                 .parallelStream()
                 .forEach(orderItem -> validateExistenceAndStock(orderItem.getProductId(), orderItem.getQuantity()));
-        return OrderDb.entityMapper(productRepository).toEntity(request.getPayload());
+        return OrderMapper.entityMapper(productRepository).toEntity(request.getPayload());
     }
 
     /**

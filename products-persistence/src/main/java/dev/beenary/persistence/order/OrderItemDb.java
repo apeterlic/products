@@ -1,16 +1,10 @@
 package dev.beenary.persistence.order;
 
-import dev.beenary.api.order.create.OrderItem;
-import dev.beenary.api.order.read.OrderItemDetail;
-import dev.beenary.common.exception.EntityNotFoundException;
 import dev.beenary.persistence.BaseEntity;
 import dev.beenary.persistence.ColumnName;
 import dev.beenary.persistence.FieldName;
 import dev.beenary.persistence.Tables;
 import dev.beenary.persistence.product.ProductDb;
-import dev.beenary.persistence.product.ProductRepository;
-import dev.beenary.persistence.utility.ApiMapper;
-import dev.beenary.persistence.utility.EntityMapper;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -18,7 +12,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -68,38 +61,6 @@ public class OrderItemDb extends BaseEntity<OrderItemDb> {
 
     public void setQuantity(final Integer quantity) {
         this.quantity = quantity;
-    }
-
-    public static EntityMapper<OrderItem, OrderItemDb> entityMapper(final ProductRepository productRepository, final OrderDb order) {
-        return dto -> {
-            final OrderItemDb orderItem = new OrderItemDb();
-            final ProductDb product = productRepository.findById(dto.getProductId())
-                    .orElseThrow(() -> new EntityNotFoundException("Product not found: " + dto.getProductId(), "productId"));
-            product.setStockQuantity(product.getStockQuantity() - dto.getQuantity());
-            orderItem.setProduct(product);
-            orderItem.setQuantity(dto.getQuantity());
-            orderItem.setProduct(product);
-            orderItem.setOrder(order);
-            return orderItem;
-        };
-    }
-
-    public static ApiMapper<OrderItemDb, OrderItemDetail> apiMapper() {
-        return entity -> {
-            final OrderItemDetail orderItemDetail = new OrderItemDetail();
-            orderItemDetail.setId(entity.getId());
-            orderItemDetail.setCode(entity.getProduct().getCode());
-            orderItemDetail.setName(entity.getProduct().getName());
-            orderItemDetail.setDescription(entity.getProduct().getDescription());
-            orderItemDetail.setCurrency(entity.getProduct().getCurrency());
-            orderItemDetail.setCategory(entity.getProduct().getCategory());
-            orderItemDetail.setPrice(entity.getProduct().getPrice());
-            orderItemDetail.setVat(entity.getProduct().getVat());
-            orderItemDetail.setTotalPrice(entity.getProduct().getPrice()
-                    .multiply(BigDecimal.valueOf(entity.getQuantity())));
-            orderItemDetail.setQuantity(entity.getQuantity());
-            return orderItemDetail;
-        };
     }
 
     /**

@@ -1,19 +1,20 @@
-package dev.beenary.persistence.product;
+package dev.beenary.core.product;
 
 import dev.beenary.api.product.Product;
-import dev.beenary.persistence.TestDataGenerator;
+import dev.beenary.core.TestDataGenerator;
+import dev.beenary.persistence.product.ProductDb;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class ProductDbTest {
+class ProductMapperTest {
 
     @Test
     void apiMapper() {
         final ProductDb productDb = TestDataGenerator.productDb();
-        final Product product = ProductDb.apiMapper().toDto(productDb);
+        final Product product = ProductMapper.apiMapper().toDto(productDb);
 
         assertAll(() -> {
             assertNotNull(product);
@@ -33,7 +34,7 @@ class ProductDbTest {
     @Test
     void entityMapper() {
         final Product product = TestDataGenerator.product();
-        final ProductDb productDb = ProductDb.entityMapper().toEntity(product);
+        final ProductDb productDb = ProductMapper.entityMapper().toEntity(product);
 
         assertAll(() -> {
             assertNotNull(productDb);

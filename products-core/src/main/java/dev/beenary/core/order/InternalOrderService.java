@@ -50,14 +50,14 @@ public class InternalOrderService implements OrderService {
         logger.debug("get() >> orderId {}", request.getId());
         final OrderDb orderDb = repository.getReferenceById(validator.validate(request));
         findCorrectProductRevision(orderDb);
-        return new GetOrderResponse(OrderDb.apiMapper().toDto(orderDb));
+        return new GetOrderResponse(OrderMapper.apiMapper().toDto(orderDb));
     }
 
     @Override
     public CreateOrderResponse create(final CreateOrderRequest request) {
         final OrderDb orderDb = repository.save(validator.validate(request));
         logger.debug("create() << orderId {}", orderDb.getId());
-        return new CreateOrderResponse(OrderDb.apiMapper().toDto(orderDb));
+        return new CreateOrderResponse(OrderMapper.apiMapper().toDto(orderDb));
     }
 
     @Override
@@ -75,7 +75,7 @@ public class InternalOrderService implements OrderService {
 
         orders.stream().forEach(this::findCorrectProductRevision);
 
-        return new SearchOrderResponse(OrderDb.apiMapper().toUnmodifieableDtoList(orders.getContent()),
+        return new SearchOrderResponse(OrderMapper.apiMapper().toUnmodifieableDtoList(orders.getContent()),
                 orders.getTotalElements(), orders.getTotalPages());
     }
 

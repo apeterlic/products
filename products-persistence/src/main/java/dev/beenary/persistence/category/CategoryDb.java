@@ -1,11 +1,9 @@
 package dev.beenary.persistence.category;
 
-import dev.beenary.api.Resource;
 import dev.beenary.persistence.BaseEntity;
 import dev.beenary.persistence.ColumnName;
 import dev.beenary.persistence.FieldName;
 import dev.beenary.persistence.Tables;
-import dev.beenary.persistence.utility.ApiMapper;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -35,14 +33,6 @@ public class CategoryDb extends BaseEntity<CategoryDb> {
 
     public void setValue(final String value) {
         this.value = value;
-    }
-
-    public static ApiMapper<CategoryDb, Resource> apiMapper() {
-        return entity -> {
-            final Resource product = new Resource();
-            product.setName(entity.getValue());
-            return product;
-        };
     }
 
     /**

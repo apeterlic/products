@@ -1,4 +1,4 @@
-package dev.beenary.persistence.utility;
+package dev.beenary.core.utility;
 
 import dev.beenary.persistence.BaseEntity;
 

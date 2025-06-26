@@ -1,12 +1,9 @@
 package dev.beenary.persistence.product;
 
-import dev.beenary.api.product.Product;
 import dev.beenary.persistence.BaseEntity;
 import dev.beenary.persistence.ColumnName;
 import dev.beenary.persistence.FieldName;
 import dev.beenary.persistence.Tables;
-import dev.beenary.persistence.utility.ApiMapper;
-import dev.beenary.persistence.utility.EntityMapper;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -138,42 +135,6 @@ public class ProductDb extends BaseEntity<ProductDb> {
 
     public void setDeleted(final boolean deleted) {
         this.deleted = deleted;
-    }
-
-    public static ApiMapper<ProductDb, Product> apiMapper() {
-        return entity -> {
-            final Product product = new Product();
-            product.setId(entity.getId());
-            product.setCode(entity.getCode());
-            product.setName(entity.getName());
-            product.setDescription(entity.getDescription());
-            product.setPrice(entity.getPrice());
-            product.setVat(entity.getVat());
-            product.setCurrency(entity.getCurrency());
-            product.setCategory(entity.getCategory());
-            product.setStockQuantity(entity.getStockQuantity());
-            product.setEnabled(entity.isEnabled());
-            product.setCreatedAt(entity.getCreatedAt());
-            product.setUpdatedAt(entity.getUpdatedAt());
-            return product;
-        };
-    }
-
-    public static EntityMapper<Product, ProductDb> entityMapper() {
-        return dto -> {
-            final ProductDb product = new ProductDb();
-            product.setId(dto.getId());
-            product.setCode(dto.getCode());
-            product.setName(dto.getName());
-            product.setDescription(dto.getDescription());
-            product.setPrice(dto.getPrice());
-            product.setVat(dto.getVat());
-            product.setCurrency(dto.getCurrency());
-            product.setCategory(dto.getCategory());
-            product.setStockQuantity(dto.getStockQuantity());
-            product.setEnabled(dto.getEnabled());
-            return product;
-        };
     }
 
     /**
